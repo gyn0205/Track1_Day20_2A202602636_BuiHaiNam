@@ -1,0 +1,226 @@
+# Metrics Pack — Track 1 Day 20
+
+> **Dự án:** SalesCoach AI — môi trường voice role-play cho nhân viên sales bất động sản. Trong một phiên, sales gọi cho khách hàng AI, thực hành hội thoại bán hàng, rồi nhận feedback theo scorecard.
+>
+> **Phạm vi bài:** Một use case: sales mới luyện cuộc gọi có phản đối của khách hàng trước khi gọi khách thật. Bài luyện có thể là cold call hoặc warm call; chọn một practice phù hợp với mục tiêu xử lý phản đối.
+>
+> **Nguồn và giới hạn bằng chứng:** README dự án ghi nhận phỏng vấn sales/manager và nêu mốc 15 ngày để sales mới bắt đầu ra thị trường, 3–6 tháng để thành thục hơn. PRD đồng thời nói rõ nhiều dữ kiện và baseline chưa được xác minh; lịch 2 phiên/tuần trong pilot, các target, điểm số và ngưỡng trong PRD đều là giả định draft. Vì chưa có biên bản/phương pháp phỏng vấn và dữ liệu hành vi trong tài liệu đã đọc, các con số dưới đây được ghi là giả thuyết cần kiểm tra, không coi là kết quả thực tế.
+
+## 00 — Dự án, persona, core job
+
+| Mục | Câu trả lời | Tự kiểm |
+|---|---|---|
+| Họ tên · MHV | Bùi Hải Nam · 2A202602636 | Khớp tên thư mục nộp bài |
+| Dự án | SalesCoach AI: web cho sales bất động sản luyện hội thoại gọi khách hàng bằng giọng nói với khách hàng AI, xem feedback theo scorecard và luyện tiếp. | Khớp README/Product Brief dự án |
+| Persona (chỉ một) | Sales bất động sản mới tuyển, đang onboarding, cần luyện xử lý phản đối trước khi gọi khách hàng thật. | Là primary user trong project brief; mức độ thường gặp/vấn đề cụ thể cần xác nhận với người dùng |
+| Core job | “Khi chuẩn bị gặp khách hoặc cần cải thiện kỹ năng bán hàng, tôi muốn luyện với tình huống và kiểu khách hàng thực tế, thử cách xử lý, nhận feedback và cải thiện trước khi gặp khách thật.” | Dùng JTBD trong Product Brief; câu vẫn có nghĩa khi bỏ “AI”, “web”, “tính năng” |
+
+## 01 — Core Action Card
+
+### Bước 1 — Chuỗi bốn khái niệm
+
+| Khái niệm | Câu trả lời |
+|---|---|
+| Core job | Luyện kỹ năng hội thoại bán hàng, đặc biệt xử lý phản đối, trước khi làm việc với khách thật. |
+| Core action | Hoàn tất một phiên gọi role-play bằng giọng nói và xem feedback có evidence gắn với hội thoại. |
+| Core value | Sales được thực hành an toàn một tình huống bán hàng, hiểu điểm mạnh/điểm cần cải thiện dựa trên những gì thực sự đã nói, và biết nên luyện gì tiếp. |
+| Core value event | Một phiên role-play đã kết thúc; evaluation được tạo thành công với feedback/evidence; sales đã mở phần feedback. Đây là bằng chứng value của một lượt luyện, không đồng nghĩa sales đã đạt readiness chính thức. |
+
+### Bước 2 — Ứng viên đã cân nhắc
+
+| Ứng viên | Gần core value | Lặp lại được | Quan sát được | Có ý nghĩa | Tác động được | Kết luận |
+|---|---|---|---|---|---|---|
+| Hoàn tất voice role-play và xem feedback có evidence | Có | Có, khi có bài luyện tiếp hoặc nhu cầu chuẩn bị tình huống mới | Có: phiên kết thúc, evaluation sẵn sàng, feedback được mở | Có: hoàn thành vòng practice → feedback | Có: cải thiện practice, voice flow, rubric và feedback | **Chọn** |
+| Mở ứng dụng hoặc xem danh sách practice | Không | Có | Có | Chưa chứng minh có luyện tập | Có | Loại: thao tác giao diện |
+| Chọn practice/scenario | Một phần | Có | Có | Chưa có hội thoại hay feedback | Có | Loại làm core action; dùng làm bước đầu funnel |
+| Bắt đầu phiên gọi | Một phần | Có | Có | Chưa hoàn thành luyện tập | Có | Loại làm core action; dùng làm leading indicator |
+| Nói một lượt với khách hàng AI | Gần value | Có | Có | Chưa chắc phiên đã hoàn thành/feedback đã có | Có | Loại làm core action; chỉ là một phần của phiên |
+| Nhận evaluation từ AI | Gần value | Có | Có | Có thể hữu ích nhưng chưa chắc sales đã xem; điểm có thể cần human review | Có | Giữ làm precondition/value component, không chọn riêng |
+| Manager phê duyệt đánh giá chính thức | Gần outcome đào tạo | Không nhất thiết diễn ra ở mọi phiên | Có nếu workflow review được triển khai | Có cho readiness chính thức, nhưng phụ thuộc manager | Một phần | Không chọn làm core action của learner; đo riêng review/guardrail |
+
+### Bước 3 — Core Action Card (9 ô)
+
+| Thành phần | Câu trả lời |
+|---|---|
+| Target user | Sales bất động sản mới tuyển đang onboarding. |
+| Core job | Luyện xử lý hội thoại/objection để chuẩn bị trước khi gặp khách thật. |
+| Core action | Hoàn tất một phiên role-play gọi khách bằng giọng nói và xem feedback theo scorecard. |
+| Object | Một practice session (`practice_session`) gắn với practice/scenario và transcript của cuộc gọi. |
+| Preconditions | Sales đã đăng nhập, chọn practice đã publish hoặc mở practice được giao; voice session hoạt động đủ để thực hành; có nội dung hội thoại để đánh giá. |
+| Completion rule | Phiên chuyển sang trạng thái `completed`; evaluation được lưu thành công; feedback tương ứng hiển thị cho sales. Phiên kết thúc nhưng evaluation lỗi/chưa có, hoặc feedback chưa được mở, chưa tính là hoàn tất core action. |
+| Core value | Thực hành cuộc gọi ít rủi ro, nhận feedback gắn với hành vi trong hội thoại và có hướng cải thiện. |
+| Evidence of value | Có session hoàn tất, evaluation với assessment status/evidence theo competency, và feedback được sales mở. Competency `not_assessed` không được xem là đạt hoặc trượt. Điểm AI chưa phải readiness chính thức nếu chưa được manager/trainer phê duyệt. |
+| Candidate event | `practice_feedback_viewed`, nối với `practice_session_completed` và `practice_evaluation_ready` bằng `session_id`. Event chỉ ghi khi feedback thực sự render cho sales. |
+
+### Bước 4 — Tự kiểm 5 tiêu chí
+
+| Tiêu chí | Đạt / Trượt | Vì sao |
+|---|---|---|
+| 1. Gần core value | Đạt | Sales đã thực hành một cuộc gọi và xem feedback gắn với hội thoại, không chỉ nhận output AI. |
+| 2. Có thể lặp lại | Đạt về thiết kế, tần suất cần xác minh | Dự án hỗ trợ nhiều practice/call type; lịch 2 phiên/tuần trong PRD là giả định pilot. |
+| 3. Có thể quan sát | Đạt | Session status, evaluation và lượt mở feedback là các trạng thái/event có thể đo. |
+| 4. Có ý nghĩa | Đạt có điều kiện | Cần feedback có evidence và theo dõi chất lượng AI/human review; nhiều phiên hơn không tự động có nghĩa kỹ năng tốt hơn. |
+| 5. Có thể tác động | Đạt | Team có thể cải thiện practice, voice session, scorecard, evaluator và nội dung feedback. |
+
+**Gate 1 — Core action đứng vững:** Có actor (sales), object (practice session), completion rule và event. Đạt ít nhất 4/5 tiêu chí về định nghĩa. Đây là lựa chọn đo lường cho bài; chưa phải kết luận rằng mọi người dùng sẽ lặp lại với tần suất cụ thể. Không chọn “mở app”, “nói với AI” hay “AI trả điểm” vì chưa hành vi nào trong số đó một mình chứng minh sales đã nhận và xem feedback của lượt luyện.
+
+## 02 — Action Nature Card + kết luận cadence
+
+| Thành phần | Câu trả lời | Bằng chứng |
+|---|---|---|
+| Actor | Sales bất động sản mới trong onboarding. | Product Brief/PRD xác định nhóm này là primary user/pilot cohort dự kiến. |
+| Intent | Chuẩn bị gặp khách hoặc cải thiện kỹ năng bán hàng bằng cách luyện các tình huống/objection thực tế. | Functional JTBD trong Product Brief. |
+| Trigger | Practice được giao trong onboarding, buổi luyện tiếp theo, hoặc nhu cầu tự chuẩn bị cho tình huống khách sắp gặp. | PRD có luồng được giao hoặc tự chọn; lịch giao cụ thể chưa xác minh. |
+| Effort | Chọn/bắt đầu một cuộc gọi role-play, hội thoại bằng voice, rồi xem feedback; thời lượng phụ thuộc practice và lượt hội thoại. | Flow sản phẩm; chưa có thống kê thời lượng thực tế. |
+| Value timing | Feedback xuất hiện sau phiên; kỹ năng/readiness chỉ có thể tích lũy qua nhiều lượt và cần rubric/manager review để xác nhận chính thức. | Product Brief/PRD phân biệt feedback AI và đánh giá chính thức. |
+| State | Lưu practice session, transcript turns, evaluation, score/evidence theo competency và lịch sử kỹ năng. | Các entity trong schema dự án. |
+| Dependency | Phụ thuộc practice đã duyệt, voice/session hoạt động, evaluation thành công; readiness chính thức còn phụ thuộc review của manager/trainer. | Project flow và yêu cầu human-in-the-loop. |
+| Repeat condition | Bài được giao tiếp theo, đề xuất luyện competency còn yếu, nhu cầu chuẩn bị một cuộc gọi/tình huống mới, hoặc lịch onboarding tiếp diễn. | Product Brief/PRD mô tả next practice; tần suất trigger thật cần phỏng vấn và log. |
+
+**Dạng hành vi:** [ ] Thói quen thường xuyên · [x] Tiến trình tích lũy · [ ] Theo dự án · [ ] Giao dịch · [ ] Workflow của team · [ ] Phản ứng theo sự kiện · [ ] Theo chu kỳ
+
+**Kết luận cadence:** Đối với **sales bất động sản mới đang onboarding**, core action **hoàn tất một voice role-play và xem feedback có evidence** thường xuất hiện **theo các buổi luyện trong onboarding; để lập kế hoạch pilot, PRD đang giả định 2 phiên mỗi tuần trong 4 tuần** vì **sales cần luyện nhiều tình huống qua thời gian, nhưng nhu cầu không tự phát sinh hằng ngày và lịch còn phụ thuộc chương trình đào tạo**. Do đó, nhịp đo phù hợp là **theo tuần onboarding** ở cấp **sales/user**, đồng thời giữ ngày/giờ mỗi phiên và phân biệt phiên được giao với phiên tự chọn.
+
+> Mốc 2 phiên/tuần là giả định pilot ghi trong PRD, chưa phải cadence đã được xác nhận qua usage data. README dự án có ghi mốc onboarding từ phỏng vấn, nhưng PRD cũng yêu cầu xác minh quy trình và baseline; cần làm rõ nguồn, mẫu và lịch huấn luyện thực tế trước khi đặt target. Frequency tăng không mặc nhiên là kỹ năng/readiness tăng.
+
+**Gate 2 — Cadence từ nature:** Nhịp tuần gắn với giả thuyết lịch onboarding/pilot và tính tích lũy của kỹ năng, không lấy daily từ dashboard. Cần xác minh số phiên được giao, quyền tự chọn và thời điểm sales thực sự có nhu cầu luyện.
+
+## 03 — Metric System
+
+### 1. Activation
+
+| Thành phần | Câu trả lời |
+|---|---|
+| Start event | `practice_session_started` đầu tiên của sales trong pilot; thời gian bắt đầu lấy từ lúc session thực sự chuyển sang trạng thái đang chạy, không tính lúc xem danh sách practice. |
+| Activation event | `practice_feedback_viewed` đầu tiên gắn với một session đã hoàn tất và có `practice_evaluation_ready` thành công. |
+| Time window | Trong vòng 7 ngày từ session start đầu tiên. Đây là cửa sổ khởi đầu phù hợp cadence tuần giả định; cần hiệu chỉnh theo onboarding thật. |
+
+### 2. Engagement (chọn hai góc đo)
+
+| Góc đo | Dùng? | Metric cụ thể, đơn vị theo cadence |
+|---|---|---|
+| Frequency | Có | Số practice session đạt core action (completed + evaluation ready + feedback viewed) trên mỗi sales trong mỗi tuần onboarding. Báo cả phân phối theo sales và phần được giao/tự chọn nếu có metadata. |
+| Depth | Có | Mức thay đổi theo competency giữa các evaluations có thể so sánh được, ưu tiên kết quả đã manager/trainer review; báo riêng `not_assessed`, loại practice/call type và độ khó. Không gộp các session khác điều kiện thành một điểm tăng đơn giản. |
+| Breadth | Không chọn làm metric chính | Có thể breakdown theo cold call/warm call và competency, nhưng không tối ưu số practice type trong use case hẹp này. |
+
+### 3. North Star Metric
+
+| Thành phần | Câu trả lời |
+|---|---|
+| Unit of value | Một lượt luyện gọi được hoàn tất, có feedback dựa trên evidence của hội thoại và đã được sales xem. |
+| Quality threshold | Session `completed`; evaluation thành công; ít nhất một competency trong scorecard (khai thác nhu cầu, xử lý phản đối, chốt bước tiếp theo) được đánh giá và có evidence gắn với transcript; feedback đã render cho sales. Competency `not_assessed` không tính là 0. Đây là ngưỡng chất lượng của lượt luyện trong sản phẩm, không phải chuẩn năng lực nghề nghiệp. |
+| Frequency | Trên mỗi sales trong mỗi tuần onboarding. |
+| North Star | **Số lượt voice role-play hoàn tất có evaluation chứa evidence và feedback đã được sales xem, trên mỗi sales mỗi tuần onboarding.** |
+
+**Liên hệ outcome:** Product Brief/PRD nêu outcome dài hạn là tỷ lệ sales đạt readiness theo rubric sau một chu kỳ, với manager/trainer phê duyệt. Đây là outcome/lagging measure cần đo riêng; không dùng điểm AI chưa duyệt hoặc North Star thay thế readiness chính thức.
+
+**Check 7 điều kiện:** [x] Gắn với value luyện tập + feedback · [x] Phù hợp hướng cải thiện kỹ năng · [x] Có thể dẫn báo cáo tiến trình nhưng chưa chứng minh readiness · [x] Không phải vanity metric nếu kèm guardrails · [x] Team có thể tác động · [x] Dễ hiểu · [x] Tính được từ session/evaluation/feedback events. Điều kiện quan trọng là không thưởng số lượng bằng mọi giá.
+
+### 4. Leading indicators
+
+| Leading indicator | Vì sao tin nó dự báo được core action lặp lại |
+|---|---|
+| Tỷ lệ session đã bắt đầu chuyển thành `practice_session_completed` | Đo xem voice role-play có đủ khả dụng/hữu ích để sales đi hết phiên hay không; cần phân tích riêng lỗi kỹ thuật và chủ động kết thúc. |
+| Tỷ lệ session hoàn tất có evaluation sẵn sàng và feedback xem được trong cùng ngày | Độ trễ/lỗi evaluator làm đứt vòng practice → feedback, có thể khiến sales ít muốn quay lại. |
+| Tỷ lệ sales bắt đầu practice tiếp theo trong cửa sổ 7 ngày sau khi xem feedback | Có thể cho thấy feedback/đề xuất next practice tạo động lực luyện tiếp; cần đối chiếu với lịch bài được giao để không nhầm compliance với nhu cầu tự nhiên. |
+
+### 5. Counter-metric
+
+| Counter-metric | Ngưỡng không được vượt | Cách đẩy core action có thể làm nó xấu đi |
+|---|---|---|
+| Manager/trainer override rate trên các review đã hoàn tất; tách sửa điểm và sửa feedback | Chưa đặt ngưỡng trước khi có baseline, cách tính và agreement được Training Manager duyệt. PRD ghi target điểm AI được duyệt không cần sửa ≥70% là giả định draft, không dùng như chuẩn đã đạt. | Tối ưu số phiên/điểm có thể khuyến khích evaluation dễ dãi, feedback sai evidence, hoặc ép phiên ngắn; làm tăng công sửa của manager và giảm tin cậy. |
+| Tỷ lệ phiên bỏ dở/lỗi voice hoặc evaluation failure | Baseline và ngưỡng cần đo pilot; phân loại lỗi người dùng, kỹ thuật và evaluator riêng. | Tối ưu số phiên bắt đầu nhưng bỏ qua độ ổn định voice/evaluation có thể làm tăng lượt thất bại, không tạo value. |
+| Cost per completed session và privacy incidents | Ngưỡng chi phí cần PO chốt; privacy incident liên quan dữ liệu khách thật phải theo chính sách và quy trình bảo mật, không tự đặt số cho phép. | Khuyến khích phiên dài/LLM call nhiều có thể tăng cost; thúc đẩy người dùng nhập thông tin thật có thể tạo rủi ro privacy. |
+
+**Gate 3 — Metric tính được:** Activation có start, value event và window; North Star có unit, quality threshold và frequency; retention được nêu ở mục 04; có counter-metric gắn human review và chất lượng. Target số phải lấy từ pilot/baseline, không tự nhận các draft target là kết quả thực tế.
+
+## 04 — Retention Definition (6 thành phần)
+
+| Thành phần | Câu trả lời |
+|---|---|
+| Unit | Một sales/user trong cohort onboarding hoặc pilot. |
+| Cohort entry | Lần đầu user đạt core action: `practice_feedback_viewed` sau một session completed có evaluation thành công. |
+| Return event | Một core action mới trên `session_id` khác: session completed, evaluation sẵn sàng và feedback được xem. |
+| Window | Các cửa sổ 7 ngày liên tiếp kể từ cohort entry; khớp cadence luyện tập theo tuần giả định. Báo week-1 retention khi cohort đã đủ trưởng thành. |
+| Threshold | Ít nhất 1 core action mới trong cửa sổ 7 ngày tiếp theo. |
+| Segment | Sales bất động sản mới trong cohort onboarding/pilot; tách sales đào tạo lại, phiên được giao/tự chọn nếu dữ liệu có và đủ mẫu. Không gộp tài khoản test/nội bộ vào learner cohort. |
+
+**Định nghĩa viết liền:** Tỷ lệ **sales mới trong cohort onboarding/pilot** vào cohort khi **xem feedback của phiên role-play đầu tiên đã hoàn tất và có evaluation** mà thực hiện **ít nhất một core action mới trên session khác** trong **cửa sổ 7 ngày tiếp theo** kể từ **thời điểm xem feedback lần đầu**, tính trong **segment sales mới onboarding; loại tài khoản test/nội bộ và báo riêng các nhóm/nguồn practice khi đủ dữ liệu**.
+
+| Mốc so sánh | Bạn sẽ so với cái gì | Nguồn |
+|---|---|---|
+| Chu kỳ tự nhiên của action | So với lịch onboarding, số phiên được giao và thời điểm sales cần chuẩn bị cho cuộc gọi; xác minh cửa sổ tuần có đúng trigger không. | Phỏng vấn sales/manager, training calendar, assignment và session logs; PRD hiện ghi lịch 2 phiên/tuần là giả định. |
+| Cohort đúng segment | So sánh cohort sales mới với sales đào tạo lại; cùng định nghĩa core action/window và đủ thời gian quan sát. | Pilot log sau khi cohort trưởng thành; hiện chưa có baseline usage. |
+| Benchmark theo category | Chưa so số cứng bên ngoài; chỉ dùng khi có nguồn cùng loại sản phẩm, segment, event và cách tính retention. | Chưa có benchmark đã xác minh trong tài liệu dự án. |
+
+**Tự kiểm retention:** Đủ 6 thành phần. Return event trùng với core action và dùng session khác để loại trừ lượt xem lại feedback cũ. Cửa sổ 7 ngày là giả thuyết theo tuần onboarding; nếu lịch thực tế không theo tuần thì sửa cadence/window trước khi báo cáo.
+
+## 05 — Product Loop (2 chu kỳ + metric hypothesis)
+
+**Loại loop chính:** [ ] Habit · [x] Progress · [ ] Project · [ ] Workflow · [ ] Transaction · [ ] Event-response · [ ] Account-level
+
+| Bước | Chu kỳ 1 | Chu kỳ 2 |
+|---|---|---|
+| Natural trigger | Sales bắt đầu onboarding, nhận practice hoặc cần chuẩn bị một cuộc gọi/objection sắp gặp. | Lịch onboarding giao bài tiếp; feedback chỉ ra một competency cần luyện thêm; sales có tình huống khác cần chuẩn bị. |
+| Core action | Hoàn tất voice role-play và xem feedback có evidence. | Hoàn tất voice role-play tiếp theo và xem feedback có evidence. |
+| Immediate value | Thấy hành vi trong cuộc gọi được feedback theo competency; nhận biết điểm cần cải thiện. | Thử cách xử lý mới trong tình huống khác và xem evidence/feedback tiếp theo. |
+| Saved state / investment | Transcript, session, assessment coverage, competency scores/evidence và feedback được lưu vào lịch sử. | Session mới được nối vào lịch sử; competency profile/progress có thêm evidence. |
+| Next natural trigger | Feedback gợi ý practice/competency tiếp theo; bài được giao hoặc nhu cầu thực tế xuất hiện. | Coach/lịch onboarding giao bước tiếp theo hoặc sales cần luyện thêm trước khi gọi khách. |
+
+**Reason to return nếu bỏ notification:** Lịch/bài luyện trong onboarding, nhu cầu chuẩn bị cho cuộc gọi khách thật, và feedback chỉ ra kỹ năng cần luyện tiếp. Nếu các trigger này không có trong trải nghiệm thật và sales chỉ quay lại khi bị nhắc, cần xem lại giả thuyết loop.
+
+**Metric hypothesis:** Nếu loop này hoạt động, **tỷ lệ sales có một core action mới trong 7 ngày sau lần đầu xem feedback** sẽ tăng giữa các cohort/chu kỳ onboarding, vì feedback evidence và practice tiếp theo giúp sales áp dụng điều vừa học vào một tình huống mới; đồng thời override rate và tỷ lệ evaluation lỗi không xấu đi.
+
+**Gate 4 — Loop nối metric:** Có hai chu kỳ; hypothesis trỏ tới week-1 retention ở mục 04 và North Star/feedback-view ở mục 03; lý do quay lại không phụ thuộc notification. Các trigger hiện là product hypothesis cần đối chiếu với sales và lịch đào tạo thật.
+
+## 06 — Tracking nhanh (6 event + acceptance criteria)
+
+> Đây là event plan đề xuất cho bài, không khẳng định toàn bộ event hiện đã được instrument trong ứng dụng. Project schema đã có practice session/status/timestamp, transcript turns, evaluation và competency scores/evidence; analytics event, feedback-view tracking, review workflow và metadata nguồn assignment cần kiểm tra/bổ sung trước khi tính metric production.
+
+### Bảng event
+
+| Tên event | Ý nghĩa (điều đã xảy ra) | Thời điểm ghi nhận chính xác | Metric sử dụng |
+|---|---|---|---|
+| `practice_session_started` | Một phiên gọi role-play thực sự bắt đầu. | Lần đầu session chuyển sang trạng thái đang chạy và voice runtime nhận phiên hợp lệ; gửi một lần cho `session_id`. Gồm `user_id`, `practice_id`, `session_id`, `practice_type`, `difficulty`, `practice_source` nếu có. | Activation start, funnel start, phân nhóm practice được giao/tự chọn. |
+| `practice_session_completed` | Phiên role-play kết thúc theo luồng sản phẩm. | Lần đầu session chuyển sang `completed` và `completed_at` được ghi; gửi một lần. Gồm `end_reason`, thời lượng, số turns; không gửi cho `abandoned` hoặc `technical_error`. | Tỷ lệ hoàn tất, frequency funnel, latency/duration breakdown. |
+| `practice_evaluation_ready` | Evaluation được tạo và lưu thành công cho session đã kết thúc. | Sau khi evaluation persistence thành công và assessment/evidence payload đọc được; lỗi/retry chưa thành công không phát event thành công. | Activation eligibility, NSM quality condition, evaluation success/latency. |
+| `practice_feedback_viewed` | Feedback của session hiển thị cho sales. | Lần đầu feedback đầy đủ được render khi user đang xem trang kết quả; không bắn khi chỉ điều hướng đến trang nhưng evaluation còn loading/error. | Activation event, North Star, retention cohort/return event. |
+| `next_practice_started` | Sales bắt đầu practice tiếp theo sau khi đã có feedback/practice trước. | Khi `practice_session_started` xảy ra trên session khác sau feedback đã xem; nối `previous_session_id` nếu có. | Leading indicator của loop và repeat practice. |
+| `manager_review_completed` | Manager/trainer hoàn tất review evaluation cho session. | Khi review được lưu ở trạng thái cuối (approved/edited/rejected); lưu riêng giá trị AI ban đầu, giá trị sau review và reviewer action. Event chỉ phát sau lần lưu thành công. | Override rate, AI–human agreement, readiness chính thức nếu quy trình đó được duyệt. |
+
+### Kiểm hai chiều
+
+| Metric (mục 03–04) | Event tính ra nó | Identity / trigger cần có |
+|---|---|---|
+| Activation | `practice_session_started` → `practice_session_completed` + `practice_evaluation_ready` → `practice_feedback_viewed` trong 7 ngày | `user_id`, `practice_id`, `session_id`, `occurred_at`, `status`; cùng `session_id` |
+| Engagement — frequency | Đếm core action theo user và từng tuần onboarding | `user_id`, `session_id`, `occurred_at`, `practice_source` nếu có |
+| Engagement — depth / skill improvement | Score/evidence trong evaluation các session so sánh được; lấy bản đã review cho báo cáo chính thức | `session_id`, `user_id`, `practice_id/type`, competency ID, score, `assessment_status`, evidence, review status |
+| North Star | Join completed session + evaluation ready + feedback viewed; lọc quality threshold có evidence | `user_id`, `session_id`, `occurred_at`, evaluation ID/status, competency assessment/evidence |
+| Leading indicators | `practice_session_started`, `practice_session_completed`, `practice_evaluation_ready`, `practice_feedback_viewed`, `next_practice_started` | `user_id`, `session_id`, `practice_id`, timestamps, error/end reason và previous session |
+| Counter-metric: override/agreement | `manager_review_completed` so sánh kết quả trước/sau và phân loại sửa điểm/sửa feedback/approve/reject | `user_id`, `session_id`, `review_id`, reviewer, final status, AI result version, reviewed result/version |
+| Retention | Lần đầu `practice_feedback_viewed` sau evaluation đủ điều kiện + feedback-view event của session khác trong các cửa sổ 7 ngày | `user_id`, `session_id`, `occurred_at`, onboarding cohort, timezone/cửa sổ tuần |
+
+### Acceptance criteria
+
+1. Với mỗi cặp `[user_id, session_id]`, hệ thống chỉ ghi `practice_session_completed` khi session chuyển trạng thái sang `completed`, `completed_at` được ghi thành công và `end_reason` không phải `technical_error`. Reload trang, reconnect voice, retry request hoặc gọi lại endpoint không tạo event hoàn tất thứ hai; session `abandoned`/kết thúc do sự cố không được tính là core action hoàn tất.
+2. Với mỗi cặp `[user_id, session_id]`, `practice_evaluation_ready` chỉ ghi sau khi evaluation được lưu thành công; provider timeout, response lỗi, trạng thái loading và retry chưa thành công không được ghi như evaluation ready. Retry tạo cùng kết quả cho cùng session phải idempotent.
+3. Với mỗi cặp `[user_id, session_id]`, `practice_feedback_viewed` chỉ ghi lần đầu khi feedback đã render đầy đủ và nhìn thấy được cho user; refresh, back/forward hoặc mở lại cùng kết quả không tạo thêm activation/retention return cho cùng session.
+4. `manager_review_completed` chỉ ghi sau khi trạng thái cuối được persist; edit nhiều field trong cùng một lần review không đếm thành nhiều review. Lưu kèm `review_id`/version để phân biệt review mới hợp lệ với retry.
+
+**Gate 4 — Event nối loop:** Có 6 event; mỗi event map tới metric/funnel/guardrail; các metric 03–04 có event, identity và điều kiện tính. Analytics về source assignment, feedback view và manager review có thể cần triển khai vì chưa được xác nhận trong schema/runtime đã đọc. Không coi event plan là instrumentation đã chạy.
+
+## Phase 5 — Tự soi lỗi và Revision
+
+| Câu tự soi | Kết quả | Cách kiểm nhanh / việc còn lại |
+|---|---|---|
+| Core action không phải thao tác giao diện hay output hệ thống? | Đạt ở mức định nghĩa | Core action cần sales hoàn tất voice role-play và xem feedback; chỉ nhận điểm AI chưa đủ. |
+| Activation không phải “xem hết hướng dẫn” hay “đăng nhập”? | Đạt | Bắt đầu từ session voice; activation cần session hoàn tất, evaluation thành công và feedback được xem. |
+| Frequency không cao hơn nhu cầu thật? | Chưa xác minh | PRD giả định 2 phiên/tuần trong 4 tuần; kiểm tra lịch đào tạo và phỏng vấn sales/manager trước khi dùng làm target. |
+| Loop có reason to return ngoài notification? | Có giả thuyết, cần xác minh | Bài onboarding tiếp theo, feedback chỉ ra kỹ năng yếu, hoặc nhu cầu chuẩn bị cho cuộc gọi thật. |
+| Retention không dùng chung một window cho mọi cadence? | Đạt có điều kiện | Dùng cửa sổ 7 ngày theo cadence tuần giả định; sửa nếu lịch thực tế không theo tuần. |
+| Mọi event đều map về một metric? | Đạt ở event plan | Bảng event nêu metric dùng; xác nhận lại sau khi thống nhất instrumentation. |
+| Metric nào cũng có event để tính nó? | Đạt ở event plan; chưa xác nhận instrumentation | Bảng hai chiều nêu join keys; feedback view/review/source metadata có thể cần bổ sung. |
+
+**Revision:** Bản trước chọn sai mô tả use case quá hẹp là “web huấn luyện sales mới” và tự đưa vào rubric 3/4 cùng ngưỡng lỗi 10%, dù chưa có căn cứ trong thông tin lúc đó. Sau khi đọc source dự án chỉ để tham khảo, sửa bài theo SalesCoach AI thực tế hơn: voice role-play cuộc gọi bất động sản; scorecard gồm khai thác nhu cầu, xử lý phản đối, chốt bước tiếp theo; feedback AI tách biệt đánh giá chính thức do manager/trainer phê duyệt. Cadence 2 phiên/tuần được lấy đúng là giả định pilot trong PRD, không phải bằng chứng usage. Các readiness threshold, target, lịch và quality guardrails vẫn chờ xác minh.
+
+**Gate 5 — Bài sạch lỗi kinh điển:** Logic action → nature/cadence → metrics/retention → loop → event đã được nối và đã phân biệt actual project flow với draft assumptions. Chưa đánh dấu giả thuyết đã được kiểm chứng: cần đối chiếu lịch pilot, cohort, rubric, chất lượng AI–human và event instrumentation với PO/Training Manager trước khi báo cáo kết quả.
